@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= userData.name %>'s Resume</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="resume-wrapper">
+            <!-- Sidebar for Contact Info -->
+            <aside class="sidebar">
+                <div class="contact-box">
+                    <h2 class="sidebar-title">Contact</h2>
+                    <p><%= userData.email %></p>
+                    <p><%= userData.phone %></p>
+                    <p><%= userData.address || 'Not specified' %></p>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Resume Header -->
+                <header class="resume-header">
+                    <h1><%= userData.name %></h1>
+                </header>
+
+                <!-- Action Buttons -->
+                <div class="resume-actions">
+                    <button class="btn primary" onclick="downloadResume()">Download Resume as PDF</button>
+                    <button class="btn secondary" onclick="generateCoverLetter()">Generate Cover Letter</button>
+                </div>
+
+                <!-- Resume Content -->
+                <section class="resume-content" id="resume-content">
+                    <%- resumeText.replace(/\n/g, '<br>').replace(/^\s*-\s*/gm, '<li>').replace(/\n<li>/g, '</li><li>').replace(/^<li>/, '<ul><li>').replace(/<\/li>$/, '</li></ul>').replace(/^(.*?):<br>/gm, '<h2 class="section-title">$1</h2>') %>
+                </section>
+
+                <!-- Cover Letter (if generated) -->
+                <% if (typeof coverLetterText !== 'undefined') { %>
+                    <section class="cover-letter-content" id="cover-letter-content">
+                        <h2 class="section-title">Cover Letter</h2>
+                        <%- coverLetterText.replace(/\n/g, '<br>') %>
+                        <button class="btn primary" onclick="downloadCoverLetter()">Download Cover Letter as PDF</button>
+                    </section>
+                <% } %>
+
+                <!-- Cover Letter Form -->
+                <section class="cover-letter-form" id="cover-letter-form" style="display: none;">
+                    <h2 class="section-title">Generate Cover Letter</h2>
+                    <form action="/generate-cover-letter" method="POST">
+                        <input type="hidden" name="userData" value='<%= JSON.stringify(userData) %>'>
+                        <input type="hidden" name="resumeText" value='<%= resumeText %>'>
+                        
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" id="jobTitle" name="jobDescription[jobTitle]" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="jobDescription">Job Description</label>
+                            <textarea id="jobDescription" name="jobDescription[description]" rows="6" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="companyName">Company Name</label>
+                            <input type="text" id="companyName" name="companyInfo[companyName]" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="companyAbout">About the Company</label>
+                            <textarea id="companyAbout" name="companyInfo[about]" rows="4"></textarea>
+                        </div>
+                        
+                        <button class="btn primary" type="submit">Generate Cover Letter</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadResume() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            // Sidebar (Contact Info)
+            doc.setFillColor(245, 245, 245);
+            doc.rect(5, 5, 50, 287, 'F'); // Sidebar background
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.text('Contact:', 10, 15);
+            doc.text('<%= userData.email %>', 10, 23);
+            doc.text('<%= userData.phone %>', 10, 31);
+            doc.text('<%= userData.address || "Not specified" %>', 10, 39);
+
+            // Main Header
+            doc.setFont('garamond', 'bold');
+            doc.setFontSize(24);
+            doc.text('<%= userData.name %>', 60, 15);
+
+            // Divider
+            doc.setLineWidth(0.5);
+            doc.line(60, 20, 200, 20);
+
+            // Resume Content
+            const resumeContent = document.getElementById('resume-content').innerText;
+            doc.setFont('garamond', 'normal');
+            doc.setFontSize(11);
+            const lines = doc.splitTextToSize(resumeContent, 120);
+            doc.text(lines, 60, 30);
+
+            doc.save('resume.pdf');
+        }
+
+        function downloadCoverLetter() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            doc.setFont('garamond', 'bold');
+            doc.setFontSize(16);
+            doc.text('Cover Letter', 20, 20);
+
+            const coverLetterContent = document.getElementById('cover-letter-content').innerText;
+            doc.setFont('garamond', 'normal');
+            doc.setFontSize(11);
+            const lines = doc.splitTextToSize(coverLetterContent, 170);
+            doc.text(lines, 20, 30);
+
+            doc.save('cover-letter.pdf');
+        }
+
+        function generateCoverLetter() {
+            document.getElementById('cover-letter-form').style.display = 'block';
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+    </script>
+</body>
+</html>
