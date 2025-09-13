@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NurtureNet - Appointments</title>
+  <link rel="stylesheet" href="../static/appoints.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>❤️ NurtureNet</h2>
+    <ul>
+      <li><a href="home.html" >Dashboard</a></li>
+      <li><a href="appointments.html"class="active">Patients</a></li>
+      <li><a href="map.html">Resource Map</a></li>
+      <li><a href="exports.html">Manage reports</a></li>
+      <li><a href="sms.html">Messages</a></li>
+      <li><a href="reports.html">Alerts</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="search-box">
+        <input type="text" id="search" placeholder="Search appointments...">
+      </div>
+      <div class="profile">👤 Amina</div>
+    </div>
+
+    <h1>Appointments</h1>
+
+    <!-- Filters -->
+    <div class="filters">
+      <select id="statusFilter">
+        <option value="all">All Statuses</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="pending">Pending</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table id="appointmentsTable">
+        <thead>
+          <tr>
+            <th>Patient</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Aisha Bello</td>
+            <td>2025-09-15</td>
+            <td>10:30</td>
+            <td>Clinic A</td>
+            <td><span class="status confirmed">Confirmed</span></td>
+            <td class="actions">
+              <button class="reschedule">Reschedule</button>
+              <button class="cancel">Cancel</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Mary John</td>
+            <td>2025-09-16</td>
+            <td>14:00</td>
+            <td>Clinic B</td>
+            <td><span class="status pending">Pending</span></td>
+            <td class="actions">
+              <button class="reschedule">Reschedule</button>
+              <button class="cancel">Cancel</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Grace Okon</td>
+            <td>2025-09-18</td>
+            <td>09:00</td>
+            <td>Clinic C</td>
+            <td><span class="status cancelled">Cancelled</span></td>
+            <td class="actions">
+              <button class="reschedule">Reschedule</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="rescheduleModal">
+    <div class="modal-content">
+      <h2>Reschedule Appointment</h2>
+      <input type="date" id="newDate">
+      <input type="time" id="newTime">
+      <div style="margin-top: 1rem;">
+        <button class="save-btn" id="saveReschedule">Save</button>
+        <button class="close-btn" id="closeModal">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("search");
+    const statusFilter = document.getElementById("statusFilter");
+    const tableRows = document.querySelectorAll("#appointmentsTable tbody tr");
+    const modal = document.getElementById("rescheduleModal");
+    const closeModal = document.getElementById("closeModal");
+    const saveReschedule = document.getElementById("saveReschedule");
+    let currentRow = null;
+
+    // Search filter
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      tableRows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(query) ? "" : "none";
+      });
+    });
+
+    // Status filter
+    statusFilter.addEventListener("change", () => {
+      const filter = statusFilter.value;
+      tableRows.forEach(row => {
+        const status = row.querySelector(".status").classList;
+        row.style.display = (filter === "all" || status.contains(filter)) ? "" : "none";
+      });
+    });
+
+    // Reschedule button
+    document.querySelectorAll(".reschedule").forEach(btn => {
+      btn.addEventListener("click", e => {
+        currentRow = e.target.closest("tr");
+        modal.style.display = "flex";
+      });
+    });
+
+    // Cancel button
+    document.querySelectorAll(".cancel").forEach(btn => {
+      btn.addEventListener("click", e => {
+        if (confirm("Are you sure you want to cancel this appointment?")) {
+          e.target.closest("tr").remove();
+        }
+      });
+    });
+
+    // Modal close
+    closeModal.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    // Save reschedule
+    saveReschedule.addEventListener("click", () => {
+      if (currentRow) {
+        const newDate = document.getElementById("newDate").value;
+        const newTime = document.getElementById("newTime").value;
+        if (newDate && newTime) {
+          currentRow.cells[1].textContent = newDate;
+          currentRow.cells[2].textContent = newTime;
+          alert("Appointment rescheduled!");
+        }
+        modal.style.display = "none";
+      }
+    });
+
+    // Close modal on outside click
+    window.addEventListener("click", e => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+  </script>
+</body>
+</html>

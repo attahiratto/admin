@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send SMS Reminder</title>
+  <link rel="stylesheet" href="../static/sms.css">
+</head>
+<body>
+  <div class="container">
+
+    <!-- Back Button -->
+    <a href="home.html"><div class="back-btn">←</div></a>
+
+    <!-- Page Title -->
+    <h1 class="page-title">Send SMS Reminder</h1>
+    <p class="subtitle">Send bulk SMS messages to patients</p>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active">Compose Message</button>
+      <button class="tab">Schedule &amp; Send</button>
+    </div>
+
+    <!-- Message Content Section -->
+    <section class="card">
+      <h2 class="section-title">💬 Message Content</h2>
+
+      <label>Message Template</label>
+      <select>
+        <option>Select a template or write custom message</option>
+      </select>
+
+      <label>Language</label>
+      <select>
+        <option>English</option>
+      </select>
+
+      <label>Message Content</label>
+      <textarea placeholder="Type your message here..."></textarea>
+      <div class="char-count">
+        Characters: 0/160 &nbsp; | &nbsp; SMS Count: 0
+      </div>
+    </section>
+
+    <!-- Recipients Section -->
+    <section class="card">
+      <h2 class="section-title">👥 Select Recipients</h2>
+
+      <div class="recipient">
+        <label><input type="checkbox"> High-Risk Patients</label>
+        <span class="badge">23 patients</span>
+      </div>
+
+      <div class="recipient">
+        <label><input type="checkbox"> Overdue Visits</label>
+        <span class="badge">15 patients</span>
+      </div>
+
+      <div class="recipient">
+        <label><input type="checkbox"> First Trimester</label>
+        <span class="badge">45 patients</span>
+      </div>
+
+      <div class="recipient">
+        <label><input type="checkbox"> Second Trimester</label>
+        <span class="badge">38 patients</span>
+      </div>
+
+      <div class="recipient">
+        <label><input type="checkbox"> Third Trimester</label>
+        <span class="badge">32 patients</span>
+      </div>
+
+      <div class="recipient">
+        <label><input type="checkbox"> All Active Patients</label>
+        <span class="badge">153 patients</span>
+      </div>
+    </section>
+
+    <!-- Message Summary -->
+    <section class="card">
+      <h2 class="section-title">Message Summary</h2>
+      <p><strong>Recipients:</strong> 0 (0 group(s) selected)</p>
+      <p><strong>Message Length:</strong> 0 characters (0 SMS)</p>
+      <p><strong>Language:</strong> English</p>
+    </section>
+    
+    <!-- Send Button -->
+    <div class="footer">
+      <button class="send-btn">✈ Send SMS</button>
+    </div>
+  </div>
+  
+<script src="../static/sms.js"></script>
+</body>
+</html>

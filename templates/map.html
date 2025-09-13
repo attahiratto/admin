@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NurtureNet - Resource Map</title>
+  <link rel="stylesheet" href="../static/map.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>❤️ NurtureNet</h2>
+    <ul>
+      <li><a href="home.html" >Dashboard</a></li>
+      <li><a href="appointments.html">Patients</a></li>
+      <li><a href="map.html" class="active">Resource Map</a></li>
+      <li><a href="exports.html">Manage reports</a></li>
+      <li><a href="sms.html">Messages</a></li>
+      <li><a href="reports.html">Alerts</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="search-box">
+        <input type="text" id="search" placeholder="Search locations...">
+      </div>
+      <div class="profile">👤 Amina</div>
+    </div>
+
+    <h1>Resource Map</h1>
+
+    <!-- Legend + Sort -->
+    <div class="legend-sort-container">
+      <div class="legend">
+        <div class="legend-item"><span class="legend-circle danger"></span> Danger</div>
+        <div class="legend-item"><span class="legend-circle warning"></span> Warning</div>
+        <div class="legend-item"><span class="legend-circle moderate"></span> Moderate</div>
+        <div class="legend-item"><span class="legend-circle safe"></span> Safe</div>
+      </div>
+
+      <div>
+        <label for="sort">Sort by: </label>
+        <select id="sort">
+          <option value="danger-first">Danger → Safe</option>
+          <option value="safe-first">Safe → Danger</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="locations-grid" id="locationsGrid">
+      <!-- Cards will be dynamically inserted here -->
+    </div>
+  </main>
+
+  <script>
+    const locations = [
+      { name: "Kano", clinics: 3, workers: 10, patients: 450 },
+      { name: "Lagos", clinics: 12, workers: 40, patients: 1200 },
+      { name: "Abuja", clinics: 8, workers: 30, patients: 700 },
+      { name: "Kaduna", clinics: 4, workers: 15, patients: 600 },
+      { name: "Ibadan", clinics: 5, workers: 10, patients: 900 },
+      { name: "Port Harcourt", clinics: 6, workers: 20, patients: 500 },
+      { name: "Enugu", clinics: 3, workers: 8, patients: 350 },
+      { name: "Jos", clinics: 2, workers: 5, patients: 400 },
+    ];
+
+    const grid = document.getElementById("locationsGrid");
+
+    function getStatusClass(workers, patients) {
+      const ratio = workers / patients;
+      if (ratio < 0.015) return "danger";
+      if (ratio < 0.03) return "warning";
+      if (ratio < 0.05) return "moderate";
+      return "safe";
+    }
+
+    function renderLocations(data) {
+      grid.innerHTML = "";
+      data.forEach(loc => {
+        const status = getStatusClass(loc.workers, loc.patients);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="status-indicator ${status}"></div>
+          <h2>${loc.name}</h2>
+          <div class="stats">
+            <p><strong>Clinics:</strong> ${loc.clinics}</p>
+            <p><strong>Workers:</strong> ${loc.workers}</p>
+            <p><strong>Patients:</strong> ${loc.patients}</p>
+          </div>
+        `;
+        card.dataset.status = status;
+        grid.appendChild(card);
+      });
+    }
+
+    function sortLocations(order) {
+      const sorted = [...locations].sort((a, b) => {
+        const statusOrder = { danger: 1, warning: 2, moderate: 3, safe: 4 };
+        const aStatus = getStatusClass(a.workers, a.patients);
+        const bStatus = getStatusClass(b.workers, b.patients);
+        if (order === "danger-first") {
+          return statusOrder[aStatus] - statusOrder[bStatus];
+        } else {
+          return statusOrder[bStatus] - statusOrder[aStatus];
+        }
+      });
+      renderLocations(sorted);
+    }
+
+    // Initial render
+    sortLocations("danger-first");
+
+    // Search
+    document.getElementById("search").addEventListener("input", e => {
+      const query = e.target.value.toLowerCase();
+      const filtered = locations.filter(loc => loc.name.toLowerCase().includes(query));
+      renderLocations(filtered);
+    });
+
+    // Sort dropdown
+    document.getElementById("sort").addEventListener("change", e => {
+      sortLocations(e.target.value);
+    });
+  </script>
+</body>
+</html>

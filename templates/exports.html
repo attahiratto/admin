@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NurtureNet - Export Reports</title>
+  <link rel="stylesheet" href="../static/exports.css">
+</head>
+<body>
+
+  <!-- Sidebar -->
+ <aside class="sidebar">
+    <h2>❤️ NurtureNet</h2>
+    <ul>
+      <li><a href="home.html" >Dashboard</a></li>
+      <li><a href="appointments.html">Patients</a></li>
+      <li><a href="map.html">Resource Map</a></li>
+      <li><a href="exports.html" class="active">Manage reports</a></li>
+      <li><a href="sms.html">Messages</a></li>
+      <li><a href="reports.html">Alerts</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="search-box">
+        <input type="text" placeholder="Search patients, locations...">
+      </div>
+      <div class="profile">👤 Amina</div>
+    </div>
+
+    <h1>⬅ Export Reports</h1>
+
+    <!-- Report Types -->
+    <div class="card">
+      <h3>Select Report Types</h3>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="patientRegistry">
+          <label for="patientRegistry">Patient Registry <small>Complete list of registered patients</small></label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="antenatal">
+          <label for="antenatal">Antenatal Visits <small>Visit attendance and schedules</small></label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="workerActivity">
+          <label for="workerActivity">Health Worker Activity <small>Worker performance and assignments</small></label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="smsResults">
+          <label for="smsResults">SMS Campaign Results <small>Message delivery and response rates</small></label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="highRisk">
+          <label for="highRisk">High-Risk Cases <small>Patients requiring urgent attention</small></label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="analytics">
+          <label for="analytics">Analytics Summary <small>Key metrics and trends</small></label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date Range -->
+    <div class="card">
+      <h3>Date Range</h3>
+      <label for="timePeriod">Time Period</label>
+      <select id="timePeriod">
+        <option>Last 30 days</option>
+        <option>Last 7 days</option>
+        <option>Custom Range</option>
+      </select>
+
+      <label for="exportFormat">Export Format</label>
+      <select id="exportFormat">
+        <option>PDF</option>
+        <option>CSV</option>
+      </select>
+    </div>
+
+    <!-- Export Summary -->
+    <div class="card">
+      <h3>Export Summary</h3>
+      <p class="summary">
+        <strong>Reports:</strong> 0 selected <br>
+        <strong>Period:</strong> Last 30 <br>
+        <strong>Format:</strong> CSV
+      </p>
+      <button class="btn">⬇ Export Reports</button>
+      <button class="btn cancel-btn">Cancel</button>
+    </div>
+
+  </main>
+
+</body>
+</html>

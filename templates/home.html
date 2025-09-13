@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../static/home.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <title>NurtureNet - Dashboard</title>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>❤️ NurtureNet</h2>
+    <ul>
+      <li><a href="home.html" class="active">Dashboard</a></li>
+      <li><a href="appointments.html">Patients</a></li>
+      <li><a href="map.html">Resource Map</a></li>
+      <li><a href="exports.html">Manage reports</a></li>
+      <li><a href="sms.html">Messages</a></li>
+      <li><a href="reports.html">Alerts</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="top-bar">
+      <div class="search-box">
+        <input type="text" placeholder="Search patients, locations...">
+      </div>
+      <div class="profile"> <span class="material-symbols-sharp">person_outline </span> Amina</div>
+    </div>
+
+    <h1>NurtureNet</h1>
+    <p class="subtitle">Maternal health monitoring and community resource management</p>
+
+    <!-- Stats Cards -->
+    <div class="grid">
+      <div class="card">
+        <span class="material-symbols-outlined icon">contacts_product</span>
+        <h2>2,847</h2>
+        <p>Registered Women</p>
+        <small>+12% from last month</small>
+      </div>
+
+      <div class="card">
+        <span class="material-symbols-outlined icon">date_range</span>
+        <h2>124</h2>
+        <p>Upcoming Visits</p>
+        <small>Next 7 days</small>
+      </div>
+
+      <div class="card">
+        <span class="material-symbols-outlined icon">release_alert</span>
+        <h2>23</h2>
+        <p>High-Risk Cases</p>
+        <small class="negative">-3 from last week</small>
+      </div>
+
+      <div class="card">
+        <span class="icon">💬</span>
+        <h2>89%</h2>
+        <p>SMS Response Rate</p>
+        <small>+5% improvement</small>
+      </div>
+
+      <div class="card">
+        <span class="material-symbols-outlined icon">person_check</span>
+        <h2>86</h2>
+        <p>Active Workers</p>
+        <small>4 areas covered</small>
+      </div>
+    </div>
+
+    <!-- Communication Overview -->
+    <div class="comm-card">
+      <h3>Communication Overview</h3>
+      <p>SMS Delivery Performance</p>
+      <div class="comm-grid">
+        <div class="comm-item">
+          <h2>92%</h2>
+          <p>Success Rate</p>
+          <small class="delivered">1245 Delivered</small>
+        </div>
+        <div class="comm-item">
+          <h2 class="failed">87</h2>
+          <p class="failed">Failed</p>
+        </div>
+        <div class="comm-item">
+          <h2>1355</h2>
+          <p>Total Sent</p>
+          <small class="pending">23 Pending</small>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

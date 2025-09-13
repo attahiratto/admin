@@ -1,17 +1,21 @@
 import africastalking
-aft_sms = africastalking.SMS
+
 
 class send_sms:
     def __init__(self):
-        #1.TODO Add in your details below
-        username = ""  # use 'sandbox' for testing
-        api_key = ""   # Your api key
+        username = "sandbox"  # use 'sandbox' for test environment
+        api_key = "FIll in your key" 
         africastalking.initialize(username, api_key)
-        
-#2.TODO define a function that with no parameters
-# and tries to send the using aft_sms.send function which takes in 3 parameters, message,list of recipients and sender 
-    def send(self):
-        pass
+        self.sms = africastalking.SMS
 
+    def send(self):
+        recipients = ["+2349122073199"]  # your test number in intl format
+        message = 'THIS IS A TEST MESSAGE FROM NURTURENET'
+        sender = "ANC"  # or your test shortcode/alphanumeric sender ID
+        try:
+            response = self.sms.send(message, recipients, sender)
+            print(response)
+        except Exception as e:
+            print(f"Houston we have a problem: {e}")
 
         
